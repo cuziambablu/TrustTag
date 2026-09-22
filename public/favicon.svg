@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Minimal geometric shield / tag mark in solid black & cobalt -->
+  <rect width="32" height="32" rx="4" fill="#171717"/>
+  <!-- Tag silhouette with precision cut -->
+  <path d="M10 8H22V19L16 24L10 19V8Z" fill="#262626" stroke="#DCDCD6" stroke-width="1.2"/>
+  <!-- Hole punch -->
+  <circle cx="16" cy="11.5" r="1.5" fill="#1D4ED8"/>
+  <!-- Precision verification check -->
+  <path d="M13 16.5L15.2 18.7L19.5 14" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square"/>
+</svg>
