@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TrustTagLogo } from '../components/branding/TrustTagLogo';
 import { useTrustTagStore } from '../store/trustTagStore';
 import { authService } from '../services/authService';
+import { ArrowRight, Lock } from 'lucide-react';
 
 interface AuthPageProps {
   initialMode?: 'login' | 'signup';
@@ -39,30 +40,30 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F4] flex flex-col justify-center items-center p-4 sm:p-6 font-sans text-[#171717]">
-      <div className="w-full max-w-md bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-8 shadow-sm">
+    <div className="min-h-screen bg-[#F7F8FA] flex flex-col justify-center items-center p-4 sm:p-6 font-sans text-[#111318]">
+      <div className="w-full max-w-md bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-8 shadow-sm">
         {/* Brand */}
-        <div className="mb-8 border-b border-[#DCDCD6] pb-4 flex items-center justify-between">
+        <div className="mb-6 border-b border-[#E4E7EC] pb-4 flex items-center justify-between">
           <TrustTagLogo size="md" onClick={() => setPage('landing')} />
-          <span className="text-[10px] font-mono text-[#6B6B67] uppercase">AUTH // V1</span>
+          <span className="text-[10px] font-mono text-[#667085] uppercase">SYS // AUTH</span>
         </div>
 
         <div className="mb-6">
-          <h2 className="text-xl font-extrabold tracking-tight text-[#171717]">
+          <h2 className="text-xl font-extrabold tracking-tight text-[#111318]">
             {isLogin ? 'Sign in to TrustTag' : 'Create an Account'}
           </h2>
-          <p className="text-xs text-[#6B6B67] mt-1">
+          <p className="text-xs text-[#667085] mt-1">
             {isLogin
               ? 'Access verified service case files and active contracts.'
-              : 'Establish verifiable agreements for commercial services.'}
+              : 'Establish verifiable agreements for commercial and trade services.'}
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           {!isLogin && (
             <div>
-              <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
+              <label className="text-[11px] font-semibold text-[#111318] block mb-1">
                 FULL NAME
               </label>
               <input
@@ -70,13 +71,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] focus:outline-none focus:border-[#171717]"
+                className="w-full bg-[#FFFFFF] border border-[#E4E7EC] rounded-[6px] px-3.5 py-2 text-[#111318] focus:outline-none focus:border-[#174EA6]"
               />
             </div>
           )}
 
           <div>
-            <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
+            <label className="text-[11px] font-semibold text-[#111318] block mb-1">
               EMAIL ADDRESS
             </label>
             <input
@@ -84,17 +85,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] focus:outline-none focus:border-[#171717]"
+              className="w-full bg-[#FFFFFF] border border-[#E4E7EC] rounded-[6px] px-3.5 py-2 text-[#111318] focus:outline-none focus:border-[#174EA6]"
             />
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="text-[10px] uppercase text-[#6B6B67]">
+              <label className="text-[11px] font-semibold text-[#111318]">
                 PASSWORD
               </label>
               {isLogin && (
-                <span className="text-[10px] text-[#1D4ED8] hover:underline cursor-pointer">
+                <span className="text-[11px] text-[#174EA6] hover:underline cursor-pointer">
                   Forgot?
                 </span>
               )}
@@ -104,13 +105,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] focus:outline-none focus:border-[#171717]"
+              className="w-full bg-[#FFFFFF] border border-[#E4E7EC] rounded-[6px] px-3.5 py-2 text-[#111318] focus:outline-none focus:border-[#174EA6]"
             />
           </div>
 
           {!isLogin && (
             <div>
-              <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
+              <label className="text-[11px] font-semibold text-[#111318] block mb-1">
                 CONFIRM PASSWORD
               </label>
               <input
@@ -118,7 +119,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] focus:outline-none focus:border-[#171717]"
+                className="w-full bg-[#FFFFFF] border border-[#E4E7EC] rounded-[6px] px-3.5 py-2 text-[#111318] focus:outline-none focus:border-[#174EA6]"
               />
             </div>
           )}
@@ -130,10 +131,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
                 id="remember"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="rounded-[2px] accent-[#171717]"
+                className="rounded accent-[#174EA6] w-4 h-4 cursor-pointer"
               />
-              <label htmlFor="remember" className="text-[11px] text-[#6B6B67] cursor-pointer">
-                Remember device for 30 days
+              <label htmlFor="remember" className="text-[11px] text-[#667085] cursor-pointer">
+                Remember this device
               </label>
             </div>
           )}
@@ -142,16 +143,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2.5 px-4 rounded-[4px] bg-[#171717] hover:bg-[#2E2E2E] text-white font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-[6px] bg-[#174EA6] hover:bg-[#133E85] text-white font-semibold text-xs transition-colors cursor-pointer shadow-xs flex items-center justify-center gap-1.5"
             >
-              {isLoading ? 'Processing...' : isLogin ? 'Sign In →' : 'Create Account →'}
+              <span>{isLoading ? 'Processing...' : isLogin ? 'Sign In' : 'Create Account'}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </form>
 
-        <div className="relative flex items-center justify-center my-6">
-          <div className="border-t border-[#DCDCD6] w-full" />
-          <span className="bg-[#FFFFFF] px-2 text-[10px] font-mono text-[#8F8F89] uppercase">
+        <div className="relative flex items-center justify-center my-5">
+          <div className="border-t border-[#E4E7EC] w-full" />
+          <span className="bg-[#FFFFFF] px-2 text-[10px] font-mono text-[#98A2B3] uppercase">
             OR
           </span>
         </div>
@@ -159,18 +161,18 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
         <button
           type="button"
           onClick={handleGoogle}
-          className="w-full py-2 px-3 rounded-[4px] bg-[#F7F7F4] hover:bg-[#EBEBE6] border border-[#DCDCD6] text-[#171717] font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+          className="w-full py-2 px-3 rounded-[6px] bg-[#FFFFFF] hover:bg-[#F2F4F7] border border-[#E4E7EC] text-[#111318] text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
         >
           Continue with Google
         </button>
 
-        <div className="mt-6 text-center text-xs font-mono text-[#6B6B67]">
+        <div className="mt-6 text-center text-xs text-[#667085]">
           {isLogin ? (
             <span>
               New organization?{' '}
               <button
                 onClick={() => setIsLogin(false)}
-                className="text-[#1D4ED8] hover:underline font-semibold cursor-pointer"
+                className="text-[#174EA6] hover:underline font-semibold cursor-pointer"
               >
                 Sign up
               </button>
@@ -180,7 +182,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ initialMode = 'login' }) => 
               Existing account?{' '}
               <button
                 onClick={() => setIsLogin(true)}
-                className="text-[#1D4ED8] hover:underline font-semibold cursor-pointer"
+                className="text-[#174EA6] hover:underline font-semibold cursor-pointer"
               >
                 Sign in
               </button>

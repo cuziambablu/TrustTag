@@ -1,28 +1,43 @@
 import React, { useState } from 'react';
 import { useTrustTagStore } from '../store/trustTagStore';
 import { Agreement, Requirement } from '../types/trustTag';
+import {
+  Check,
+  Plus,
+  Trash2,
+  Lock,
+  ArrowRight,
+  ArrowLeft,
+  FileCheck,
+  Layers,
+  Upload,
+  CheckCircle2,
+  Calendar,
+  DollarSign,
+  User,
+  Shield
+} from 'lucide-react';
 
 export const CreateTagPage: React.FC = () => {
-  const { setPage, setDraftAgreement, addToast } = useTrustTagStore();
+  const { setPage, setDraftAgreement, setDraftEvidence, addToast } = useTrustTagStore();
 
-  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
-  // Step 1: Category / What are you hiring for?
-  const [category, setCategory] = useState('Home Services');
+  // Step 1: Agreement Basics
+  const [service, setService] = useState('Living Room Painting');
+  const [description, setDescription] = useState('Paint entire living room walls in matte white with two opaque coats.');
+  const [price, setPrice] = useState('₹12,500');
+  const [deadline, setDeadline] = useState('Friday, Sep 25');
+  const [counterparty, setCounterparty] = useState('Rahul Verma (Master Painter)');
+  const [customerName, setCustomerName] = useState('Irfan (Client)');
 
-  // Step 2: Define the agreement
-  const [service, setService] = useState('Apartment Painting');
-  const [description, setDescription] = useState('Paint bedroom walls white with two coats of washable matte paint.');
-  const [price, setPrice] = useState('₹8,000');
-  const [deadline, setDeadline] = useState('Friday, 6:00 PM');
-
-  // Step 3: Define measurable requirements
+  // Step 2: Dynamic Measurable Requirements
   const [requirements, setRequirements] = useState<Requirement[]>([
     {
       id: 'req-1',
       type: 'color',
-      label: 'Wall Paint Color',
-      agreedValue: 'White',
+      label: 'Wall color',
+      agreedValue: 'Matte white',
       evidenceType: 'photo',
       status: 'pending',
       confidence: 96
@@ -30,7 +45,7 @@ export const CreateTagPage: React.FC = () => {
     {
       id: 'req-2',
       type: 'task',
-      label: 'Coat Application',
+      label: 'Application coats',
       agreedValue: 'Two coats',
       evidenceType: 'photo',
       status: 'pending',
@@ -39,406 +54,470 @@ export const CreateTagPage: React.FC = () => {
     {
       id: 'req-3',
       type: 'task',
-      label: 'Coverage Area',
-      agreedValue: 'Bedroom perimeter',
+      label: 'Scope perimeter',
+      agreedValue: 'Living room + ceiling',
       evidenceType: 'photo',
       status: 'pending',
-      confidence: 98
+      confidence: 92
     },
     {
       id: 'req-4',
       type: 'deadline',
-      label: 'Completion Schedule',
-      agreedValue: 'Before Friday 6:00 PM',
+      label: 'Completion time',
+      agreedValue: 'Complete by Friday',
       evidenceType: 'photo',
       status: 'pending',
       confidence: 99
     }
   ]);
 
-  const [newReqLabel, setNewReqLabel] = useState('');
-  const [newReqValue, setNewReqValue] = useState('');
-  const [newReqType, setNewReqType] = useState<'photo' | 'document' | 'video'>('photo');
+  const [newLabel, setNewLabel] = useState('');
+  const [newValue, setNewValue] = useState('');
+  const [newEvidenceType, setNewEvidenceType] = useState<'photo' | 'document' | 'video'>('photo');
 
   const addRequirement = () => {
-    if (!newReqLabel || !newReqValue) return;
+    if (!newLabel || !newValue) return;
     const newReq: Requirement = {
       id: `req-${Date.now()}`,
       type: 'custom',
-      label: newReqLabel,
-      agreedValue: newReqValue,
-      evidenceType: newReqType,
+      label: newLabel,
+      agreedValue: newValue,
+      evidenceType: newEvidenceType,
       status: 'pending',
       confidence: 90
     };
     setRequirements([...requirements, newReq]);
-    setNewReqLabel('');
-    setNewReqValue('');
+    setNewLabel('');
+    setNewValue('');
   };
 
   const removeRequirement = (id: string) => {
     setRequirements(requirements.filter((r) => r.id !== id));
   };
 
-  const categories = [
-    { id: 'Home Services', desc: 'Painting, plumbing, electrical, carpentry, repairs' },
-    { id: 'Digital Studio', desc: 'Web development, mobile apps, software integration' },
-    { id: 'Commercial Trades', desc: 'HVAC installation, machining, equipment service' },
-    { id: 'Creative & Design', desc: 'Logo design, brand identity, video editing' }
-  ];
+  // Step 3: Evidence Selection
+  const [selectedPreset, setSelectedPreset] = useState<'white-room' | 'blue-room' | 'blurry-ceiling'>('white-room');
 
-  const handleFinalize = () => {
+  // Step 4: Lock
+  const handleLockAgreement = () => {
     const agreement: Agreement = {
       task: service,
-      category,
+      category: 'Home Services',
       description,
       price,
       deadline,
-      color: requirements.find((r) => r.type === 'color')?.agreedValue || 'White',
+      color: requirements.find((r) => r.type === 'color')?.agreedValue || 'Matte white',
       finish: 'Matte',
       confidenceScore: 94,
       requirements
     };
 
     setDraftAgreement(agreement);
-    setStep(5);
-    addToast('TrustTag Agreement Created', `${service} (${price}) locked successfully`, 'success');
+
+    // Attach preset evidence
+    const evidenceObj = {
+      id: `ev-${Date.now()}`,
+      fileName: selectedPreset === 'white-room' ? 'living_room_white_final.jpg' : 'living_room_paint_delivered.jpg',
+      fileType: 'image' as const,
+      url: selectedPreset === 'white-room' ? '/demo/white-room.svg' : '/demo/blue-room.svg',
+      uploadedAt: 'Just now',
+      metadata: { quality: 'Good' as const }
+    };
+    setDraftEvidence(evidenceObj);
+
+    addToast('Agreement Locked', 'Requirements cryptographically hashed and sealed.', 'success');
+    setPage('verification-result');
   };
 
   return (
-    <div className="space-y-8 max-w-3xl mx-auto pb-16 font-sans">
+    <div className="space-y-8 max-w-4xl mx-auto pb-16 font-sans">
       {/* Header */}
-      <div className="border-b border-[#DCDCD6] pb-4">
-        <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold">
-          AGREEMENT CREATION // 5-STEP WORKFLOW
+      <div>
+        <span className="text-xs font-mono uppercase tracking-widest text-[#174EA6] font-semibold block">
+          NEW CASE SETUP
         </span>
-        <h1 className="text-2xl font-extrabold tracking-tight text-[#111111] mt-0.5">
-          {step === 1 && 'What are you hiring for?'}
-          {step === 2 && 'Define the agreement.'}
-          {step === 3 && 'Define measurable requirements.'}
-          {step === 4 && 'Review agreement.'}
-          {step === 5 && 'TrustTag Created.'}
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#111318] mt-1">
+          Create a Verifiable Agreement
         </h1>
-        <p className="text-xs text-[#6B6B67] mt-0.5">
-          Step {step} of 5 • Simple, unambiguous criteria both parties agree to.
+        <p className="text-sm text-[#667085] mt-1">
+          Capture deliverables and atomic measurable checkpoints into an immutable TrustTag record.
         </p>
       </div>
 
-      {/* Thin Horizontal Step Progress */}
-      <div className="grid grid-cols-5 gap-2 border-b border-[#DCDCD6] pb-3 text-xs font-mono">
+      {/* 4-Step Stepper */}
+      <div className="grid grid-cols-4 border-b border-[#E4E7EC] pb-4 font-mono text-xs">
         {[
-          { num: 1, label: 'Category' },
-          { num: 2, label: 'Terms' },
-          { num: 3, label: 'Requirements' },
-          { num: 4, label: 'Review' },
-          { num: 5, label: 'Complete' }
+          { num: 1, title: 'Agreement' },
+          { num: 2, title: 'Requirements' },
+          { num: 3, title: 'Evidence' },
+          { num: 4, title: 'Review & Lock' },
         ].map((s) => (
-          <div key={s.num} className="space-y-1">
-            <div
-              className={`h-[2px] w-full ${
-                step === s.num
-                  ? 'bg-[#1D4ED8]'
-                  : step > s.num
-                  ? 'bg-[#111111]'
-                  : 'bg-[#DCDCD6]'
-              }`}
-            />
-            <span
-              className={`text-[10px] block ${
-                step === s.num ? 'font-bold text-[#1D4ED8]' : step > s.num ? 'text-[#111111]' : 'text-[#8F8F89]'
-              }`}
-            >
-              0{s.num} {s.label}
+          <div
+            key={s.num}
+            onClick={() => {
+              if (s.num < step) setStep(s.num as any);
+            }}
+            className={`flex flex-col sm:flex-row items-center sm:items-baseline gap-1 sm:gap-2 cursor-pointer ${
+              step === s.num
+                ? 'text-[#174EA6] font-bold'
+                : step > s.num
+                ? 'text-[#15803D]'
+                : 'text-[#98A2B3]'
+            }`}
+          >
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${
+              step === s.num
+                ? 'bg-[#174EA6] text-white'
+                : step > s.num
+                ? 'bg-[#F0FDF4] text-[#15803D] border border-[#BBF7D0]'
+                : 'bg-[#F2F4F7] text-[#667085]'
+            }`}>
+              {step > s.num ? '✓' : s.num}
             </span>
+            <span className="text-[11px] uppercase tracking-wide truncate">{s.title}</span>
           </div>
         ))}
       </div>
 
-      {/* STEP 1: What are you hiring for? */}
+      {/* Step 1: Agreement Details */}
       {step === 1 && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
-            {categories.map((cat) => (
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 sm:p-8 space-y-6 shadow-xs animate-in fade-in duration-150">
+          <div className="border-b border-[#E4E7EC] pb-3">
+            <h2 className="text-base font-bold text-[#111318]">01 Agreement Parameters</h2>
+            <p className="text-xs text-[#667085] mt-0.5">Specify service scope, financial consideration, and counterparty details.</p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold text-[#111318] mb-1.5">
+                Service Name
+              </label>
+              <input
+                type="text"
+                value={service}
+                onChange={(e) => setService(e.target.value)}
+                placeholder="e.g. Living Room Painting"
+                className="w-full px-3.5 py-2.5 rounded-[6px] border border-[#E4E7EC] text-sm text-[#111318] focus:outline-none focus:border-[#174EA6] focus:ring-1 focus:ring-[#174EA6]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#111318] mb-1.5">
+                Scope Description
+              </label>
+              <textarea
+                rows={3}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Describe the agreed deliverables and expectations..."
+                className="w-full px-3.5 py-2.5 rounded-[6px] border border-[#E4E7EC] text-sm text-[#111318] focus:outline-none focus:border-[#174EA6] focus:ring-1 focus:ring-[#174EA6]"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-[#111318] mb-1.5">
+                  Agreed Price / Fee
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="₹12,500"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] border border-[#E4E7EC] text-sm text-[#111318] font-mono focus:outline-none focus:border-[#174EA6]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-[#111318] mb-1.5">
+                  Completion Deadline
+                </label>
+                <input
+                  type="text"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                  placeholder="Friday, Sep 25"
+                  className="w-full px-3.5 py-2.5 rounded-[6px] border border-[#E4E7EC] text-sm text-[#111318] focus:outline-none focus:border-[#174EA6]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#F2F4F7]">
+              <div>
+                <label className="block text-xs font-semibold text-[#111318] mb-1.5">
+                  Service Provider
+                </label>
+                <input
+                  type="text"
+                  value={counterparty}
+                  onChange={(e) => setCounterparty(e.target.value)}
+                  placeholder="e.g. Rahul Verma (Provider)"
+                  className="w-full px-3.5 py-2.5 rounded-[6px] border border-[#E4E7EC] text-sm text-[#111318] focus:outline-none focus:border-[#174EA6]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-[#111318] mb-1.5">
+                  Customer / Client
+                </label>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="e.g. Irfan (Client)"
+                  className="w-full px-3.5 py-2.5 rounded-[6px] border border-[#E4E7EC] text-sm text-[#111318] focus:outline-none focus:border-[#174EA6]"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-4 border-t border-[#E4E7EC]">
+            <button
+              onClick={() => setStep(2)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[6px] bg-[#174EA6] hover:bg-[#133E85] text-white text-xs font-semibold shadow-xs cursor-pointer"
+            >
+              <span>Continue to Requirements</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Step 2: Dynamic Measurable Requirements */}
+      {step === 2 && (
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 sm:p-8 space-y-6 shadow-xs animate-in fade-in duration-150">
+          <div className="border-b border-[#E4E7EC] pb-3">
+            <h2 className="text-base font-bold text-[#111318]">02 Measurable Requirements</h2>
+            <p className="text-xs text-[#667085] mt-0.5">
+              Turn expectations into verifiable clauses that TrustTag AI can test against photographic evidence.
+            </p>
+          </div>
+
+          {/* Current Dynamic List */}
+          <div className="space-y-3">
+            {requirements.map((req, idx) => (
               <div
-                key={cat.id}
-                onClick={() => setCategory(cat.id)}
-                className={`p-4 border rounded-[4px] cursor-pointer transition-colors ${
-                  category === cat.id
-                    ? 'border-[#111111] bg-[#FFFFFF] ring-1 ring-[#111111]'
-                    : 'border-[#DCDCD6] bg-[#FFFFFF] hover:border-[#111111]'
-                }`}
+                key={req.id}
+                className="p-3.5 rounded-[6px] bg-[#F7F8FA] border border-[#E4E7EC] flex items-center justify-between gap-3 text-xs"
               >
-                <span className="font-bold text-sm text-[#111111] block mb-1">
-                  {cat.id}
-                </span>
-                <span className="text-[11px] font-sans text-[#6B6B67] leading-relaxed">
-                  {cat.desc}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="w-6 h-6 rounded bg-[#FFFFFF] border border-[#E4E7EC] flex items-center justify-center font-mono text-[11px] font-bold text-[#667085]">
+                    {idx + 1}
+                  </span>
+                  <div>
+                    <span className="font-semibold text-[#111318] block">{req.label}</span>
+                    <span className="text-[11px] text-[#667085]">
+                      Expected: <strong className="text-[#111318] font-mono">{req.agreedValue}</strong> • Evidence: {req.evidenceType}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => removeRequirement(req.id)}
+                  className="p-1 text-[#98A2B3] hover:text-[#B42318] transition-colors cursor-pointer"
+                  title="Remove requirement"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
             ))}
           </div>
 
-          <div className="flex justify-end pt-4">
-            <button
-              onClick={() => setStep(2)}
-              className="py-2.5 px-6 rounded-[4px] bg-[#111111] hover:bg-[#2E2E2E] text-white font-mono text-xs font-semibold uppercase tracking-wider cursor-pointer"
-            >
-              Next: Define Agreement →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 2: Define the agreement */}
-      {step === 2 && (
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 space-y-4 font-mono text-xs">
-          <div>
-            <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
-              SERVICE TITLE
-            </label>
-            <input
-              type="text"
-              value={service}
-              onChange={(e) => setService(e.target.value)}
-              placeholder="e.g. Apartment Painting"
-              className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#111111] focus:outline-none focus:border-[#111111]"
-            />
-          </div>
-
-          <div>
-            <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
-              DESCRIPTION & SCOPE
-            </label>
-            <textarea
-              rows={3}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe what was agreed..."
-              className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#111111] focus:outline-none focus:border-[#111111] font-sans text-xs"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
-                AGREED PRICE (INR)
-              </label>
-              <input
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="₹8,000"
-                className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#111111] focus:outline-none focus:border-[#111111]"
-              />
-            </div>
-
-            <div>
-              <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
-                DEADLINE
-              </label>
-              <input
-                type="text"
-                value={deadline}
-                onChange={(e) => setDeadline(e.target.value)}
-                placeholder="Friday, 6:00 PM"
-                className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#111111] focus:outline-none focus:border-[#111111]"
-              />
+          {/* Add New Dynamic Requirement */}
+          <div className="p-4 rounded-[6px] border border-dashed border-[#D0D5DD] bg-[#FAFAFA] space-y-3">
+            <span className="text-xs font-semibold text-[#111318] block font-mono">
+              + ADD NEW REQUIREMENT CHECKPOINT
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 text-xs">
+              <div className="sm:col-span-5">
+                <input
+                  type="text"
+                  value={newLabel}
+                  onChange={(e) => setNewLabel(e.target.value)}
+                  placeholder="Requirement (e.g. Wall color)"
+                  className="w-full px-3 py-2 rounded-[5px] border border-[#E4E7EC] bg-[#FFFFFF] focus:outline-none focus:border-[#174EA6]"
+                />
+              </div>
+              <div className="sm:col-span-4">
+                <input
+                  type="text"
+                  value={newValue}
+                  onChange={(e) => setNewValue(e.target.value)}
+                  placeholder="Expected (e.g. Matte white)"
+                  className="w-full px-3 py-2 rounded-[5px] border border-[#E4E7EC] bg-[#FFFFFF] focus:outline-none focus:border-[#174EA6]"
+                />
+              </div>
+              <div className="sm:col-span-3 flex gap-2">
+                <select
+                  value={newEvidenceType}
+                  onChange={(e) => setNewEvidenceType(e.target.value as any)}
+                  className="flex-1 px-2 py-2 rounded-[5px] border border-[#E4E7EC] bg-[#FFFFFF] focus:outline-none focus:border-[#174EA6]"
+                >
+                  <option value="photo">Photo</option>
+                  <option value="document">Doc</option>
+                  <option value="video">Video</option>
+                </select>
+                <button
+                  onClick={addRequirement}
+                  className="px-3 py-2 rounded-[5px] bg-[#111318] hover:bg-[#2E2E2E] text-white font-semibold cursor-pointer"
+                >
+                  Add
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="flex justify-between items-center pt-4 border-t border-[#DCDCD6]">
+          <div className="flex justify-between pt-4 border-t border-[#E4E7EC]">
             <button
               onClick={() => setStep(1)}
-              className="py-2 px-4 rounded-[4px] bg-[#F7F7F4] border border-[#DCDCD6] text-[#111111] text-xs font-semibold cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[6px] border border-[#E4E7EC] bg-[#FFFFFF] hover:bg-[#F2F4F7] text-xs font-semibold text-[#111318] cursor-pointer"
             >
-              ← Back
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
             </button>
             <button
               onClick={() => setStep(3)}
-              className="py-2.5 px-6 rounded-[4px] bg-[#111111] hover:bg-[#2E2E2E] text-white text-xs font-semibold uppercase tracking-wider cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[6px] bg-[#174EA6] hover:bg-[#133E85] text-white text-xs font-semibold shadow-xs cursor-pointer"
             >
-              Next: Define Requirements →
+              <span>Continue to Evidence</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 3: Define measurable requirements */}
+      {/* Step 3: Evidence Selection */}
       {step === 3 && (
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 space-y-6 font-mono text-xs">
-          <div>
-            <span className="text-[10px] uppercase text-[#6B6B67] block font-semibold mb-2">
-              MEASURABLE VERIFICATION REQUIREMENTS
-            </span>
-            <div className="border border-[#DCDCD6] rounded-[4px] divide-y divide-[#DCDCD6]">
-              {requirements.map((r) => (
-                <div key={r.id} className="p-3 flex items-center justify-between gap-3">
-                  <div>
-                    <span className="font-bold text-[#111111] block">{r.label}</span>
-                    <span className="text-[11px] text-[#6B6B67]">
-                      Expected: <strong>{r.agreedValue}</strong> • Evidence: {r.evidenceType || 'photo'}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => removeRequirement(r.id)}
-                    className="text-[10px] text-[#B91C1C] hover:underline uppercase cursor-pointer"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </div>
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 sm:p-8 space-y-6 shadow-xs animate-in fade-in duration-150">
+          <div className="border-b border-[#E4E7EC] pb-3">
+            <h2 className="text-base font-bold text-[#111318]">03 Photographic Delivery Evidence</h2>
+            <p className="text-xs text-[#667085] mt-0.5">Attach delivery evidence or select a benchmark verification preset for immediate testing.</p>
           </div>
 
-          {/* Add Requirement Sub-form */}
-          <div className="p-4 bg-[#F7F7F4] border border-[#DCDCD6] rounded-[4px] space-y-3">
-            <span className="text-[10px] uppercase font-bold text-[#111111] block">
-              + ADD NEW REQUIREMENT
-            </span>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label className="text-[9px] uppercase text-[#6B6B67] block mb-1">Requirement Name</label>
-                <input
-                  type="text"
-                  value={newReqLabel}
-                  onChange={(e) => setNewReqLabel(e.target.value)}
-                  placeholder="e.g. Clean trim masking"
-                  className="w-full bg-[#FFFFFF] border border-[#DCDCD6] rounded-[2px] px-2.5 py-1.5 text-xs text-[#111111]"
-                />
-              </div>
-              <div>
-                <label className="text-[9px] uppercase text-[#6B6B67] block mb-1">Expected Value</label>
-                <input
-                  type="text"
-                  value={newReqValue}
-                  onChange={(e) => setNewReqValue(e.target.value)}
-                  placeholder="e.g. Straight edge lines"
-                  className="w-full bg-[#FFFFFF] border border-[#DCDCD6] rounded-[2px] px-2.5 py-1.5 text-xs text-[#111111]"
-                />
-              </div>
-              <div>
-                <label className="text-[9px] uppercase text-[#6B6B67] block mb-1">Evidence Type</label>
-                <select
-                  value={newReqType}
-                  onChange={(e) => setNewReqType(e.target.value as any)}
-                  className="w-full bg-[#FFFFFF] border border-[#DCDCD6] rounded-[2px] px-2 py-1.5 text-xs text-[#111111]"
-                >
-                  <option value="photo">Photo</option>
-                  <option value="document">Document / PDF</option>
-                  <option value="video">Video</option>
-                </select>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={addRequirement}
-              className="py-1.5 px-3 bg-[#111111] text-white text-[11px] rounded-[3px] font-semibold uppercase cursor-pointer"
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Preset 1: White Room Compliant */}
+            <div
+              onClick={() => setSelectedPreset('white-room')}
+              className={`p-4 rounded-[8px] border-2 cursor-pointer transition-all ${
+                selectedPreset === 'white-room'
+                  ? 'border-[#174EA6] bg-[#EEF4FF]/30'
+                  : 'border-[#E4E7EC] bg-[#FFFFFF] hover:border-[#D0D5DD]'
+              }`}
             >
-              Add Requirement
-            </button>
+              <div className="aspect-[16/10] rounded-[4px] overflow-hidden bg-[#0B1220] mb-3">
+                <img src="/demo/white-room.svg" alt="White room" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-[#111318]">Delivered White Finish</span>
+                <span className="text-[10px] font-mono text-[#15803D] bg-[#F0FDF4] px-1.5 py-0.5 rounded border border-[#BBF7D0]">
+                  MATCH
+                </span>
+              </div>
+              <p className="text-[11px] text-[#667085] mt-1">
+                Even matte white coat across room perimeter.
+              </p>
+            </div>
+
+            {/* Preset 2: Blue Room Mismatch */}
+            <div
+              onClick={() => setSelectedPreset('blue-room')}
+              className={`p-4 rounded-[8px] border-2 cursor-pointer transition-all ${
+                selectedPreset === 'blue-room'
+                  ? 'border-[#174EA6] bg-[#EEF4FF]/30'
+                  : 'border-[#E4E7EC] bg-[#FFFFFF] hover:border-[#D0D5DD]'
+              }`}
+            >
+              <div className="aspect-[16/10] rounded-[4px] overflow-hidden bg-[#0B1220] mb-3">
+                <img src="/demo/blue-room.svg" alt="Blue room" className="w-full h-full object-cover" />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-[#111318]">Delivered Blue Finish</span>
+                <span className="text-[10px] font-mono text-[#B42318] bg-[#FEF3F2] px-1.5 py-0.5 rounded border border-[#FECDCA]">
+                  MISMATCH
+                </span>
+              </div>
+              <p className="text-[11px] text-[#667085] mt-1">
+                Delivered wall is royal blue (#2563EB) instead of agreed white.
+              </p>
+            </div>
           </div>
 
-          <div className="flex justify-between items-center pt-2 border-t border-[#DCDCD6]">
+          <div className="flex justify-between pt-4 border-t border-[#E4E7EC]">
             <button
               onClick={() => setStep(2)}
-              className="py-2 px-4 rounded-[4px] bg-[#F7F7F4] border border-[#DCDCD6] text-[#111111] text-xs font-semibold cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[6px] border border-[#E4E7EC] bg-[#FFFFFF] hover:bg-[#F2F4F7] text-xs font-semibold text-[#111318] cursor-pointer"
             >
-              ← Back
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
             </button>
             <button
               onClick={() => setStep(4)}
-              className="py-2.5 px-6 rounded-[4px] bg-[#111111] hover:bg-[#2E2E2E] text-white text-xs font-semibold uppercase tracking-wider cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[6px] bg-[#174EA6] hover:bg-[#133E85] text-white text-xs font-semibold shadow-xs cursor-pointer"
             >
-              Next: Review Agreement →
+              <span>Review & Lock</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 4: Review agreement */}
+      {/* Step 4: Review & Lock */}
       {step === 4 && (
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 space-y-6 font-mono text-xs">
-          <div className="border-b border-[#DCDCD6] pb-3">
-            <span className="text-[10px] text-[#6B6B67] uppercase block font-semibold">
-              AGREEMENT SUMMARY FOR CONFIRMATION
-            </span>
-            <h2 className="text-base font-bold text-[#111111] mt-0.5">
-              {service} ({category})
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px]">
-              <span className="text-[10px] text-[#6B6B67] block">PRICE</span>
-              <span className="text-sm font-bold text-[#111111]">{price}</span>
-            </div>
-            <div className="p-3 bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px]">
-              <span className="text-[10px] text-[#6B6B67] block">DEADLINE</span>
-              <span className="text-sm font-bold text-[#111111]">{deadline}</span>
-            </div>
-          </div>
-
-          <div>
-            <span className="text-[10px] text-[#6B6B67] uppercase block font-semibold mb-2">
-              REQUIREMENTS TO BE VERIFIED ({requirements.length})
-            </span>
-            <div className="border border-[#DCDCD6] rounded-[4px] divide-y divide-[#DCDCD6]">
-              {requirements.map((r, i) => (
-                <div key={r.id} className="p-2.5 flex justify-between">
-                  <span className="font-semibold text-[#111111]">{i + 1}. {r.label}</span>
-                  <span className="text-[#6B6B67]">Expected: <strong>{r.agreedValue}</strong></span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center pt-2 border-t border-[#DCDCD6]">
-            <button
-              onClick={() => setStep(3)}
-              className="py-2 px-4 rounded-[4px] bg-[#F7F7F4] border border-[#DCDCD6] text-[#111111] text-xs font-semibold cursor-pointer"
-            >
-              ← Edit Requirements
-            </button>
-            <button
-              onClick={handleFinalize}
-              className="py-2.5 px-6 rounded-[4px] bg-[#111111] hover:bg-[#2E2E2E] text-white text-xs font-semibold uppercase tracking-wider cursor-pointer"
-            >
-              Lock Agreement & Create TrustTag →
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 5: Create TrustTag Complete */}
-      {step === 5 && (
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-8 text-center space-y-4 font-mono">
-          <div className="w-10 h-10 rounded-[4px] bg-[#15803D] text-white flex items-center justify-center font-bold text-lg mx-auto">
-            ✓
-          </div>
-          <div>
-            <span className="text-[10px] text-[#15803D] font-bold uppercase tracking-wider block">
-              TRUSTTAG ACTIVE
-            </span>
-            <h2 className="text-xl font-bold text-[#111111] mt-1 font-sans">
-              Agreement successfully locked.
-            </h2>
-            <p className="text-xs text-[#6B6B67] mt-1 max-w-sm mx-auto font-sans">
-              Both parties now have an immutable reference record. When work concludes, upload evidence to verify delivery.
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 sm:p-8 space-y-6 shadow-xs animate-in fade-in duration-150">
+          <div className="border-b border-[#E4E7EC] pb-3">
+            <h2 className="text-base font-bold text-[#111318]">04 Review & Cryptographic Lock</h2>
+            <p className="text-xs text-[#667085] mt-0.5">
+              Once locked, the baseline parameters become tamper-proof and verifiable by both parties.
             </p>
           </div>
 
-          <div className="pt-4 flex justify-center gap-3 text-xs font-mono">
+          <div className="p-4 rounded-[6px] bg-[#F7F8FA] border border-[#E4E7EC] space-y-3 font-mono text-xs">
+            <div className="flex items-center justify-between pb-2 border-b border-[#E4E7EC]">
+              <span className="text-[#667085] uppercase">Service Task</span>
+              <span className="font-bold text-[#111318] font-sans">{service}</span>
+            </div>
+            <div className="flex items-center justify-between pb-2 border-b border-[#E4E7EC]">
+              <span className="text-[#667085] uppercase">Consideration</span>
+              <span className="font-bold text-[#174EA6]">{price}</span>
+            </div>
+            <div className="flex items-center justify-between pb-2 border-b border-[#E4E7EC]">
+              <span className="text-[#667085] uppercase">Deadline</span>
+              <span className="font-bold text-[#111318]">{deadline}</span>
+            </div>
+            <div className="flex items-center justify-between pb-2 border-b border-[#E4E7EC]">
+              <span className="text-[#667085] uppercase">Provider</span>
+              <span className="font-bold text-[#111318] font-sans">{counterparty}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[#667085] uppercase">Requirements</span>
+              <span className="font-bold text-[#111318]">{requirements.length} atomic clauses</span>
+            </div>
+          </div>
+
+          {/* Cryptographic Assurance */}
+          <div className="p-3 rounded-[6px] bg-[#EEF4FF] border border-[#D0E2FF] flex items-center gap-3 text-xs text-[#174EA6]">
+            <Lock className="w-4 h-4 shrink-0" />
+            <span>
+              SHA-256 seal will be minted upon confirmation. Baseline cannot be secretly altered or backdated.
+            </span>
+          </div>
+
+          <div className="flex justify-between pt-4 border-t border-[#E4E7EC]">
             <button
-              onClick={() => setPage('dashboard')}
-              className="py-2 px-4 rounded-[4px] bg-[#F7F7F4] hover:bg-[#EBEBE6] border border-[#DCDCD6] text-[#111111] cursor-pointer"
+              onClick={() => setStep(3)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-[6px] border border-[#E4E7EC] bg-[#FFFFFF] hover:bg-[#F2F4F7] text-xs font-semibold text-[#111318] cursor-pointer"
             >
-              Return to Dashboard
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
             </button>
             <button
-              onClick={() => setPage('evidence-upload')}
-              className="py-2 px-5 rounded-[4px] bg-[#111111] hover:bg-[#2E2E2E] text-white uppercase font-semibold cursor-pointer"
+              onClick={handleLockAgreement}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-[6px] bg-[#174EA6] hover:bg-[#133E85] text-white text-xs font-semibold uppercase tracking-wider shadow-sm cursor-pointer"
             >
-              Upload Evidence Now →
+              <Lock className="w-3.5 h-3.5" />
+              <span>Lock TrustTag & Verify →</span>
             </button>
           </div>
         </div>

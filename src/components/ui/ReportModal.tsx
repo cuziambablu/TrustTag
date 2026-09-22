@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TrustTag } from '../../types/trustTag';
 import { TrustTagLogo } from '../branding/TrustTagLogo';
+import { CheckCircle2, AlertTriangle, Download, Copy, Printer, Check, X } from 'lucide-react';
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -20,7 +21,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   const isMismatch = tag.verification?.overallStatus === 'mismatch';
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(`https://trusttag.sys/record/${tag.id}`);
+    navigator.clipboard.writeText(`https://trusttag.ai/record/${tag.id}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -63,80 +64,83 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-[2px]">
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[6px] bg-[#FFFFFF] border border-[#DCDCD6] shadow-2xl p-6 sm:p-8 text-[#171717]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[8px] bg-[#FFFFFF] border border-[#E4E7EC] shadow-2xl p-6 sm:p-8 text-[#111318] font-sans">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#DCDCD6] pb-4 mb-6">
+        <div className="flex items-center justify-between border-b border-[#E4E7EC] pb-4 mb-6">
           <div className="flex items-center gap-3">
             <TrustTagLogo size="sm" />
             <div>
-              <h2 className="text-sm font-bold font-mono tracking-wider text-[#171717] uppercase">
+              <h2 className="text-sm font-bold tracking-tight text-[#111318] uppercase font-mono">
                 VERIFICATION CERTIFICATE // {tag.id}
               </h2>
-              <span className="text-[10px] font-mono text-[#6B6B67]">
-                SHA256: e8d4f09a12c4...72d54e48b1
+              <span className="text-[11px] font-mono text-[#667085]">
+                SHA-256: e8d4f09a...72d54e48b1
               </span>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-[4px] hover:bg-[#F0F0EB] text-[#6B6B67] hover:text-[#171717] font-mono text-xs cursor-pointer"
+            className="p-1.5 rounded-[4px] hover:bg-[#F2F4F7] text-[#667085] hover:text-[#111318] text-xs font-mono cursor-pointer"
           >
-            [ ESC ]
+            [ESC]
           </button>
         </div>
 
         {/* Status Callout */}
         <div
-          className={`p-4 rounded-[4px] border mb-6 ${
+          className={`p-4 rounded-[6px] border mb-6 ${
             isMismatch
-              ? 'bg-[#FEF2F2] border-[#FECACA] text-[#991B1B]'
-              : 'bg-[#F0FDF4] border-[#BBF7D0] text-[#166534]'
+              ? 'bg-[#FEF3F2] border-[#FECDCA] text-[#B42318]'
+              : 'bg-[#F0FDF4] border-[#BBF7D0] text-[#15803D]'
           }`}
         >
-          <div className="flex items-center justify-between font-mono text-xs font-bold uppercase mb-1">
-            <span>{isMismatch ? '⚠ MISMATCH DETECTED' : '✓ VERIFIED COMPLIANT'}</span>
-            <span>{tag.verification?.confidence || 92}% CONFIDENCE</span>
+          <div className="flex items-center justify-between text-xs font-bold uppercase mb-1 font-mono">
+            <div className="flex items-center gap-2">
+              {isMismatch ? <AlertTriangle className="w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
+              <span>{isMismatch ? 'MISMATCH DETECTED' : 'VERIFIED COMPLIANT'}</span>
+            </div>
+            <span>{tag.verification?.confidence || 94}% CONFIDENCE</span>
           </div>
-          <p className="text-xs font-sans text-[#171717] leading-relaxed">
+          <p className="text-xs leading-relaxed text-[#111318]">
             {tag.verification?.summary}
           </p>
         </div>
 
         {/* Record Metadata Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-[#F7F7F4] border border-[#DCDCD6] rounded-[4px] font-mono text-xs mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3.5 bg-[#F7F8FA] border border-[#E4E7EC] rounded-[6px] text-xs font-mono mb-6">
           <div>
-            <span className="text-[10px] text-[#6B6B67] block">SERVICE</span>
-            <span className="font-semibold text-[#171717]">{tag.service}</span>
+            <span className="text-[10px] text-[#667085] block">SERVICE</span>
+            <span className="font-semibold text-[#111318] truncate block">{tag.service}</span>
           </div>
           <div>
-            <span className="text-[10px] text-[#6B6B67] block">PROVIDER</span>
-            <span className="font-semibold text-[#171717]">{tag.provider.name}</span>
+            <span className="text-[10px] text-[#667085] block">PROVIDER</span>
+            <span className="font-semibold text-[#111318] truncate block">{tag.provider.name}</span>
           </div>
           <div>
-            <span className="text-[10px] text-[#6B6B67] block">CUSTOMER</span>
-            <span className="font-semibold text-[#171717]">{tag.customer.name}</span>
+            <span className="text-[10px] text-[#667085] block">CUSTOMER</span>
+            <span className="font-semibold text-[#111318] truncate block">{tag.customer.name}</span>
           </div>
           <div>
-            <span className="text-[10px] text-[#6B6B67] block">DATE</span>
-            <span className="font-semibold text-[#171717]">Sep 22, 2026</span>
+            <span className="text-[10px] text-[#667085] block">DATE</span>
+            <span className="font-semibold text-[#111318]">Sep 22, 2026</span>
           </div>
         </div>
 
         {/* Findings Matrix */}
         <div className="space-y-2 mb-6">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#6B6B67] block font-semibold">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#667085] block font-semibold">
             AUDITED REQUIREMENT MATRIX
           </span>
-          <div className="border border-[#DCDCD6] divide-y divide-[#DCDCD6] rounded-[4px] text-xs font-mono">
+          <div className="border border-[#E4E7EC] divide-y divide-[#E4E7EC] rounded-[6px] text-xs font-mono">
             {tag.verification?.findings.map((f, idx) => (
-              <div key={idx} className="p-2.5 flex items-center justify-between">
+              <div key={idx} className="p-3 flex items-center justify-between">
                 <div>
-                  <span className="font-bold text-[#171717] mr-2">{f.label}:</span>
-                  <span className="text-[#6B6B67]">Agreed "{f.agreed}" → Detected "{f.detected}"</span>
+                  <span className="font-bold text-[#111318] mr-2">{f.label}:</span>
+                  <span className="text-[#667085]">Agreed "{f.agreed}" → Detected "{f.detected}"</span>
                 </div>
-                <span className={`text-[10px] font-bold uppercase ${f.status === 'mismatch' ? 'text-[#B91C1C]' : 'text-[#15803D]'}`}>
+                <span className={`text-[10px] font-bold uppercase ${f.status === 'mismatch' ? 'text-[#B42318]' : 'text-[#15803D]'}`}>
                   {f.status}
                 </span>
               </div>
@@ -145,31 +149,34 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         </div>
 
         {/* Legal Disclaimer */}
-        <p className="text-[10px] text-[#6B6B67] font-mono leading-relaxed border-t border-[#DCDCD6] pt-4 mb-6">
-          RECORD NOTICE: TrustTag assists parties through objective algorithmic verification. Findings indicate statistical confidence distributions and do not constitute formal legal judgments or arbitration awards.
+        <p className="text-[11px] text-[#667085] leading-relaxed border-t border-[#E4E7EC] pt-4 mb-6">
+          LEGAL NOTICE: TrustTag assists counterparty verification through objective algorithmic multimodal analysis. Findings indicate statistical confidence distributions and do not constitute formal judicial arbitration.
         </p>
 
         {/* Actions */}
-        <div className="flex items-center justify-between gap-3 pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
           <button
             onClick={handleCopyLink}
-            className="py-2 px-3 rounded-[4px] bg-[#F7F7F4] hover:bg-[#EBEBE6] border border-[#DCDCD6] text-[#171717] font-mono text-xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 py-2 px-3 rounded-[6px] bg-[#FFFFFF] hover:bg-[#F2F4F7] border border-[#E4E7EC] text-[#111318] text-xs font-semibold cursor-pointer shadow-2xs"
           >
-            {copied ? 'Link Copied' : 'Copy Record URL'}
+            {copied ? <Check className="w-3.5 h-3.5 text-[#15803D]" /> : <Copy className="w-3.5 h-3.5 text-[#667085]" />}
+            <span>{copied ? 'Link Copied' : 'Copy Record URL'}</span>
           </button>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => window.print()}
-              className="py-2 px-3 rounded-[4px] bg-[#F7F7F4] hover:bg-[#EBEBE6] border border-[#DCDCD6] text-[#171717] font-mono text-xs cursor-pointer"
+              className="inline-flex items-center gap-1.5 py-2 px-3 rounded-[6px] bg-[#FFFFFF] hover:bg-[#F2F4F7] border border-[#E4E7EC] text-[#111318] text-xs font-semibold cursor-pointer shadow-2xs"
             >
-              Print
+              <Printer className="w-3.5 h-3.5 text-[#667085]" />
+              <span>Print</span>
             </button>
             <button
               onClick={handleDownload}
-              className="py-2 px-4 rounded-[4px] bg-[#171717] hover:bg-[#2E2E2E] text-white font-mono text-xs font-semibold uppercase tracking-wider cursor-pointer"
+              className="inline-flex items-center gap-1.5 py-2 px-4 rounded-[6px] bg-[#174EA6] hover:bg-[#133E85] text-white text-xs font-semibold shadow-xs cursor-pointer"
             >
-              Download JSON
+              <Download className="w-3.5 h-3.5" />
+              <span>Download JSON</span>
             </button>
           </div>
         </div>

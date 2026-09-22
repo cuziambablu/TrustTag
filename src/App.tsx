@@ -3,6 +3,7 @@ import { useTrustTagStore } from './store/trustTagStore';
 import { DemoBanner } from './components/layout/DemoBanner';
 import { Sidebar } from './components/layout/Sidebar';
 import { AppHeader } from './components/layout/AppHeader';
+import { MobileBottomNav } from './components/layout/MobileBottomNav';
 
 import { LandingPage } from './pages/LandingPage';
 import { AuthPage } from './pages/AuthPage';
@@ -25,7 +26,7 @@ export function App() {
   // Standalone public pages
   if (activePage === 'landing') {
     return (
-      <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
+      <div className="min-h-screen bg-[#F7F8FA] text-[#111318] flex flex-col font-sans">
         <DemoBanner />
         <LandingPage />
         <ToastContainer />
@@ -35,7 +36,7 @@ export function App() {
 
   if (activePage === 'login') {
     return (
-      <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
+      <div className="min-h-screen bg-[#F7F8FA] text-[#111318] flex flex-col font-sans">
         <DemoBanner />
         <AuthPage initialMode="login" />
         <ToastContainer />
@@ -45,7 +46,7 @@ export function App() {
 
   if (activePage === 'signup') {
     return (
-      <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
+      <div className="min-h-screen bg-[#F7F8FA] text-[#111318] flex flex-col font-sans">
         <DemoBanner />
         <AuthPage initialMode="signup" />
         <ToastContainer />
@@ -55,7 +56,7 @@ export function App() {
 
   // Dashboard / Authenticated Application Shell
   return (
-    <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F7F8FA] text-[#111318] flex flex-col font-sans">
       {/* Persistent Judge Demo Bar */}
       <DemoBanner />
 
@@ -69,7 +70,7 @@ export function App() {
         {mobileSidebarOpen && (
           <div className="fixed inset-0 z-50 lg:hidden flex">
             <div
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
               onClick={() => setMobileSidebarOpen(false)}
             />
             <div className="relative z-10 w-72 h-full bg-[#FFFFFF] shadow-2xl">
@@ -82,7 +83,7 @@ export function App() {
         <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
           <AppHeader onToggleMobileSidebar={() => setMobileSidebarOpen(true)} />
 
-          <main className="flex-1 px-4 sm:px-8 py-6 sm:py-8 max-w-7xl mx-auto w-full">
+          <main className="flex-1 px-4 sm:px-8 py-6 sm:py-8 pb-24 lg:pb-8 max-w-7xl mx-auto w-full">
             {activePage === 'dashboard' && <DashboardPage />}
             {activePage === 'create-tag' && <CreateTagPage />}
             {activePage === 'agreement-review' && <AgreementReviewPage />}
@@ -97,6 +98,10 @@ export function App() {
         </div>
       </div>
 
+      {/* Mobile Bottom Navigation for authenticated views */}
+      <MobileBottomNav />
+
+      {/* Global Notifications */}
       <ToastContainer />
     </div>
   );

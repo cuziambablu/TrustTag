@@ -2,27 +2,28 @@
 
 @layer base {
   :root {
-    --bg-page: #F7F7F4;
+    --bg-page: #F7F8FA;
     --bg-card: #FFFFFF;
-    --bg-subtle: #F0F0EB;
-    --bg-dark: #151515;
-    --text-primary: #171717;
-    --text-secondary: #6B6B67;
-    --text-muted: #8F8F89;
-    --border-main: #DCDCD6;
-    --border-light: #EBEBE6;
-    --border-dark: #262626;
-    --accent-cobalt: #1D4ED8;
-    --accent-cobalt-subtle: #EFF6FF;
-    --verified-green: #15803D;
-    --verified-green-bg: #F0FDF4;
-    --verified-green-border: #BBF7D0;
-    --mismatch-red: #B91C1C;
-    --mismatch-red-bg: #FEF2F2;
-    --mismatch-red-border: #FECACA;
-    --pending-amber: #B45309;
-    --pending-amber-bg: #FFFBEB;
-    --pending-amber-border: #FDE68A;
+    --bg-subtle: #F0F2F5;
+    --bg-dark: #0B1220;
+    --text-primary: #111318;
+    --text-secondary: #667085;
+    --text-muted: #98A2B3;
+    --border-main: #E4E7EC;
+    --border-light: #F2F4F7;
+    --border-dark: #1E293B;
+    --brand-primary: #174EA6;
+    --brand-primary-hover: #133E85;
+    --brand-subtle: #EEF4FF;
+    --success: #15803D;
+    --success-bg: #F0FDF4;
+    --success-border: #BBF7D0;
+    --warning: #B45309;
+    --warning-bg: #FFFBEB;
+    --warning-border: #FDE68A;
+    --danger: #B42318;
+    --danger-bg: #FEF3F2;
+    --danger-border: #FECDCA;
   }
 
   * {
@@ -39,40 +40,54 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  button, a {
+    transition: all 180ms ease-in-out;
   }
 }
 
-/* Subtle editorial scrollbar */
+/* Subtle scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #F7F7F4;
+  background: #F7F8FA;
 }
 ::-webkit-scrollbar-thumb {
-  background: #DCDCD6;
-  border-radius: 2px;
+  background: #E4E7EC;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #B5B5AD;
+  background: #D0D5DD;
 }
 
 /* Subtle scanning line for evidence review */
 @keyframes scanningLine {
   0% {
     top: 0%;
-    opacity: 0.6;
+    opacity: 0.5;
   }
   50% {
-    opacity: 1;
+    opacity: 0.9;
   }
   100% {
     top: 100%;
-    opacity: 0.6;
+    opacity: 0.5;
   }
 }
 
 .animate-scan-subtle {
-  animation: scanningLine 2.8s ease-in-out infinite alternate;
+  animation: scanningLine 2.6s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

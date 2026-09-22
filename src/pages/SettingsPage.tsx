@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { authService } from '../services/authService';
+import { Check, Copy, Sliders, Key, Bell, Shield } from 'lucide-react';
 
 export const SettingsPage: React.FC = () => {
   const [user, setUser] = useState(authService.getUser());
@@ -35,68 +36,71 @@ export const SettingsPage: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto pb-16 font-sans">
-      <div className="border-b border-[#DCDCD6] pb-4">
-        <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold">
+      <div className="border-b border-[#E4E7EC] pb-4">
+        <span className="text-xs font-mono uppercase tracking-widest text-[#174EA6] block font-semibold">
           SYSTEM CONFIGURATION
         </span>
-        <h1 className="text-2xl font-extrabold tracking-tight text-[#171717] mt-0.5">
-          Account & Calibration Settings.
+        <h1 className="text-2xl font-extrabold tracking-tight text-[#111318] mt-1">
+          Account & Calibration Settings
         </h1>
+        <p className="text-xs text-[#667085] mt-0.5">
+          Configure model tolerances, organization details, and API credentials.
+        </p>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-6 font-mono text-xs">
+      <form onSubmit={handleSave} className="space-y-6 text-xs">
         {/* Profile Card */}
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 space-y-4">
-          <span className="text-[11px] uppercase tracking-wider text-[#171717] block font-bold border-b border-[#DCDCD6] pb-2">
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 space-y-4 shadow-xs">
+          <span className="text-xs uppercase tracking-wider text-[#111318] block font-bold font-mono border-b border-[#E4E7EC] pb-2">
             ORGANIZATION & USER
           </span>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
+              <label className="text-[11px] font-semibold text-[#111318] block mb-1">
                 OPERATOR NAME
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] focus:outline-none focus:border-[#171717]"
+                className="w-full bg-[#FFFFFF] border border-[#E4E7EC] rounded-[6px] px-3 py-2 text-[#111318] focus:outline-none focus:border-[#174EA6]"
               />
             </div>
 
             <div>
-              <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
+              <label className="text-[11px] font-semibold text-[#111318] block mb-1">
                 EMAIL ADDRESS
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] focus:outline-none focus:border-[#171717]"
+                className="w-full bg-[#FFFFFF] border border-[#E4E7EC] rounded-[6px] px-3 py-2 text-[#111318] focus:outline-none focus:border-[#174EA6]"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="text-[10px] uppercase text-[#6B6B67] block mb-1">
+              <label className="text-[11px] font-semibold text-[#111318] block mb-1">
                 COMMERCIAL ENTITY / COMPANY
               </label>
               <input
                 type="text"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
-                className="w-full bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] focus:outline-none focus:border-[#171717]"
+                className="w-full bg-[#FFFFFF] border border-[#E4E7EC] rounded-[6px] px-3 py-2 text-[#111318] focus:outline-none focus:border-[#174EA6]"
               />
             </div>
           </div>
         </div>
 
         {/* AI Calibration */}
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 space-y-4">
-          <div className="flex items-center justify-between border-b border-[#DCDCD6] pb-2">
-            <span className="text-[11px] uppercase tracking-wider text-[#171717] font-bold">
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 space-y-4 shadow-xs">
+          <div className="flex items-center justify-between border-b border-[#E4E7EC] pb-2">
+            <span className="text-xs uppercase tracking-wider text-[#111318] font-bold font-mono">
               AI VERIFICATION SENSITIVITY CALIBRATION
             </span>
-            <span className="text-[#1D4ED8] font-bold">
+            <span className="text-[#174EA6] font-bold font-mono text-xs">
               {sensitivity}% THRESHOLD
             </span>
           </div>
@@ -108,9 +112,9 @@ export const SettingsPage: React.FC = () => {
               max={98}
               value={sensitivity}
               onChange={(e) => setSensitivity(Number(e.target.value))}
-              className="w-full accent-[#171717] cursor-pointer"
+              className="w-full accent-[#174EA6] cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-[#6B6B67]">
+            <div className="flex justify-between text-[11px] text-[#667085] font-mono">
               <span>60% (Lenient tolerance)</span>
               <span>88% (Standard default)</span>
               <span>98% (Strict commercial precision)</span>
@@ -119,58 +123,59 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         {/* API Credentials */}
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 space-y-4">
-          <span className="text-[11px] uppercase tracking-wider text-[#171717] block font-bold border-b border-[#DCDCD6] pb-2">
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 space-y-4 shadow-xs">
+          <span className="text-xs uppercase tracking-wider text-[#111318] block font-bold font-mono border-b border-[#E4E7EC] pb-2">
             API ACCESS TOKEN
           </span>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-mono">
             <input
               type="text"
               readOnly
               value={user.apiKey}
-              className="flex-1 bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] px-3 py-2 text-[#171717] select-all"
+              className="flex-1 bg-[#F7F8FA] border border-[#E4E7EC] rounded-[6px] px-3 py-2 text-[#111318] select-all text-xs"
             />
             <button
               type="button"
               onClick={handleCopyKey}
-              className="py-2 px-3 rounded-[3px] bg-[#F7F7F4] hover:bg-[#EBEBE6] border border-[#DCDCD6] text-[#171717] font-semibold text-[11px] uppercase cursor-pointer"
+              className="inline-flex items-center gap-1.5 py-2 px-3 rounded-[6px] bg-[#FFFFFF] hover:bg-[#F2F4F7] border border-[#E4E7EC] text-[#111318] font-semibold text-xs cursor-pointer shadow-2xs"
             >
-              {copied ? 'Copied' : 'Copy'}
+              {copied ? <Check className="w-3.5 h-3.5 text-[#15803D]" /> : <Copy className="w-3.5 h-3.5 text-[#667085]" />}
+              <span>{copied ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
         </div>
 
         {/* Alert preferences */}
-        <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 space-y-4">
-          <span className="text-[11px] uppercase tracking-wider text-[#171717] block font-bold border-b border-[#DCDCD6] pb-2">
+        <div className="bg-[#FFFFFF] border border-[#E4E7EC] rounded-[8px] p-6 space-y-4 shadow-xs">
+          <span className="text-xs uppercase tracking-wider text-[#111318] block font-bold font-mono border-b border-[#E4E7EC] pb-2">
             AUDIT DISPATCH HOOKS
           </span>
 
           <div className="space-y-3">
-            <label className="flex items-center justify-between p-3 border border-[#DCDCD6] rounded-[3px] bg-[#F7F7F4] cursor-pointer">
+            <label className="flex items-center justify-between p-3 border border-[#E4E7EC] rounded-[6px] bg-[#F7F8FA] cursor-pointer">
               <div>
-                <span className="font-bold text-[#171717] block">Immediate Discrepancy Alerts</span>
-                <span className="text-[10px] text-[#6B6B67]">Email operator when ΔE chromaticity or task parameter fails verification.</span>
+                <span className="font-semibold text-[#111318] block text-xs">Immediate Discrepancy Alerts</span>
+                <span className="text-[11px] text-[#667085]">Email operator when ΔE chromaticity or task parameter fails verification.</span>
               </div>
               <input
                 type="checkbox"
                 checked={emailAlerts}
                 onChange={(e) => setEmailAlerts(e.target.checked)}
-                className="rounded-[2px] accent-[#171717]"
+                className="rounded accent-[#174EA6] w-4 h-4 cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-3 border border-[#DCDCD6] rounded-[3px] bg-[#F7F7F4] cursor-pointer">
+            <label className="flex items-center justify-between p-3 border border-[#E4E7EC] rounded-[6px] bg-[#F7F8FA] cursor-pointer">
               <div>
-                <span className="font-bold text-[#171717] block">Webhook Event Streaming</span>
-                <span className="text-[10px] text-[#6B6B67]">Dispatch signed verification certificate payloads upon completion.</span>
+                <span className="font-semibold text-[#111318] block text-xs">Webhook Event Streaming</span>
+                <span className="text-[11px] text-[#667085]">Dispatch signed verification certificate payloads upon completion.</span>
               </div>
               <input
                 type="checkbox"
                 checked={mismatchWebhooks}
                 onChange={(e) => setMismatchWebhooks(e.target.checked)}
-                className="rounded-[2px] accent-[#171717]"
+                className="rounded accent-[#174EA6] w-4 h-4 cursor-pointer"
               />
             </label>
           </div>
@@ -179,18 +184,19 @@ export const SettingsPage: React.FC = () => {
         {/* Save button */}
         <div className="flex items-center justify-between pt-2">
           {saved ? (
-            <span className="text-[#15803D] font-bold">
-              ✓ Settings saved and persisted.
+            <span className="text-[#15803D] font-semibold text-xs flex items-center gap-1.5">
+              <Check className="w-4 h-4" />
+              <span>Settings saved and persisted.</span>
             </span>
           ) : (
-            <span className="text-[#8F8F89]">
-              All calibration is saved to local storage.
+            <span className="text-[#98A2B3] text-xs">
+              All calibration is saved locally.
             </span>
           )}
 
           <button
             type="submit"
-            className="py-2.5 px-6 rounded-[4px] bg-[#171717] hover:bg-[#2E2E2E] text-white font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+            className="py-2.5 px-6 rounded-[6px] bg-[#174EA6] hover:bg-[#133E85] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
           >
             Save Configuration
           </button>

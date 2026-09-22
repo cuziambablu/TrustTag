@@ -2,7 +2,7 @@ import React from 'react';
 import { TrustTagStatus, RequirementStatus } from '../../types/trustTag';
 
 interface StatusBadgeProps {
-  status: TrustTagStatus | RequirementStatus | 'needs_review';
+  status: TrustTagStatus | RequirementStatus | 'needs_review' | 'review';
   size?: 'sm' | 'md';
   className?: string;
 }
@@ -19,58 +19,58 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     verified: {
       label: 'VERIFIED',
       bg: 'bg-[#F0FDF4]',
-      text: 'text-[#166534]',
+      text: 'text-[#15803D]',
       border: 'border-[#BBF7D0]',
       dot: 'bg-[#15803D]'
     },
     matched: {
       label: 'MATCHED',
       bg: 'bg-[#F0FDF4]',
-      text: 'text-[#166534]',
+      text: 'text-[#15803D]',
       border: 'border-[#BBF7D0]',
       dot: 'bg-[#15803D]'
     },
     mismatch: {
       label: 'MISMATCH',
-      bg: 'bg-[#FEF2F2]',
-      text: 'text-[#991B1B]',
-      border: 'border-[#FECACA]',
-      dot: 'bg-[#B91C1C]'
+      bg: 'bg-[#FEF3F2]',
+      text: 'text-[#B42318]',
+      border: 'border-[#FECDCA]',
+      dot: 'bg-[#B42318]'
     },
     warning: {
-      label: 'WARNING',
+      label: 'NEEDS REVIEW',
       bg: 'bg-[#FFFBEB]',
-      text: 'text-[#92400E]',
+      text: 'text-[#B45309]',
       border: 'border-[#FDE68A]',
       dot: 'bg-[#B45309]'
     },
     needs_review: {
-      label: 'PENDING REVIEW',
+      label: 'NEEDS REVIEW',
       bg: 'bg-[#FFFBEB]',
-      text: 'text-[#92400E]',
+      text: 'text-[#B45309]',
       border: 'border-[#FDE68A]',
       dot: 'bg-[#B45309]'
     },
     review: {
-      label: 'PENDING REVIEW',
+      label: 'NEEDS REVIEW',
       bg: 'bg-[#FFFBEB]',
-      text: 'text-[#92400E]',
+      text: 'text-[#B45309]',
       border: 'border-[#FDE68A]',
       dot: 'bg-[#B45309]'
     },
     active: {
       label: 'ACTIVE',
-      bg: 'bg-[#F7F7F4]',
-      text: 'text-[#171717]',
-      border: 'border-[#DCDCD6]',
-      dot: 'bg-[#1D4ED8]'
+      bg: 'bg-[#EEF4FF]',
+      text: 'text-[#174EA6]',
+      border: 'border-[#D0E2FF]',
+      dot: 'bg-[#174EA6]'
     },
     pending: {
-      label: 'PENDING',
-      bg: 'bg-[#F7F7F4]',
-      text: 'text-[#6B6B67]',
-      border: 'border-[#DCDCD6]',
-      dot: 'bg-[#8F8F89]'
+      label: 'AWAITING EVIDENCE',
+      bg: 'bg-[#F7F8FA]',
+      text: 'text-[#667085]',
+      border: 'border-[#E4E7EC]',
+      dot: 'bg-[#98A2B3]'
     }
   };
 
@@ -83,7 +83,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center font-mono font-medium rounded-[3px] border ${current.bg} ${current.text} ${current.border} ${sizeClasses[size]} tracking-wider uppercase ${className}`}
+      className={`inline-flex items-center font-mono font-medium rounded-[4px] border ${current.bg} ${current.text} ${current.border} ${sizeClasses[size]} tracking-wider uppercase ${className}`}
     >
       <span className={`w-1.5 h-1.5 rounded-full ${current.dot} shrink-0`} />
       <span>{current.label}</span>

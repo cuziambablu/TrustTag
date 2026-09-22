@@ -32,7 +32,7 @@ export const TrustTagLogo: React.FC<LogoProps> = ({
       onClick={onClick}
       className={`inline-flex items-center gap-2.5 select-none ${onClick ? 'cursor-pointer' : ''} ${className}`}
     >
-      <div className={`relative ${iconSizes[size]} bg-[#151515] rounded-[4px] border border-[#2E2E2E] flex items-center justify-center shrink-0`}>
+      <div className={`relative ${iconSizes[size]} bg-[#111318] rounded-[5px] border border-[#2B313E] flex items-center justify-center shrink-0 shadow-sm`}>
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -42,29 +42,30 @@ export const TrustTagLogo: React.FC<LogoProps> = ({
           {/* Tag / Shield Geometric Contour */}
           <path
             d="M6 5.5H18V14.5L12 19L6 14.5V5.5Z"
-            fill="#222222"
-            stroke="#DCDCD6"
+            fill="#1E2330"
+            stroke="#98A2B3"
             strokeWidth="1.2"
           />
-          {/* Cobalt Tag Punch */}
-          <circle cx="12" cy="8.5" r="1.2" fill="#1D4ED8" />
+          {/* Primary Brand Punch */}
+          <circle cx="12" cy="8.5" r="1.3" fill="#174EA6" />
           {/* Verification Mark */}
           <path
             d="M9.5 12.5L11.2 14.2L14.8 10.5"
             stroke="#FFFFFF"
-            strokeWidth="1.4"
-            strokeLinecap="square"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </div>
 
       {showText && (
         <div className="flex items-center gap-1.5 leading-none">
-          <span className={`font-semibold font-mono tracking-wider ${dark ? 'text-white' : 'text-[#171717]'} ${textSizes[size]}`}>
-            TRUSTTAG
+          <span className={`font-semibold tracking-tight font-sans ${dark ? 'text-white' : 'text-[#111318]'} ${textSizes[size]}`}>
+            TrustTag
           </span>
-          <span className="text-[9px] font-mono tracking-widest text-[#6B6B67] uppercase border border-[#DCDCD6] px-1 py-0.2 rounded-[2px]">
-            SYS
+          <span className="text-[9px] font-mono tracking-wider text-[#667085] uppercase border border-[#E4E7EC] px-1 py-0.5 rounded-[3px] bg-[#F7F8FA]">
+            v2.4
           </span>
         </div>
       )}

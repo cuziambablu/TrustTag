@@ -60,9 +60,9 @@ It is an **autonomous evidence and agreement verification engine**.
 
 ### Frontend Design System
 Designed with institutional fintech restraint, mathematical clarity, and high-density information architecture:
-- **Palette**: Warm paper (`#F7F7F4`), clean card surface (`#FFFFFF`), near-black typography (`#111111`), signature cobalt (`#1D4ED8`), verified emerald (`#15803D`), caution amber (`#B45309`), discrepancy crimson (`#B91C1C`).
-- **Typography**: Inter / system sans-serif for interface clarity; IBM Plex Mono for hash fingerprints, telemetry metrics, and ISO timestamps.
-- **Form Factor**: Zero AI-generated clichés (no floating purple blobs, no pillowy rounded cards, no decorative low-contrast gradients). Strict 2px–6px border radii, razor-thin borders, and high-density contrast.
+- **Palette**: Neutral background (`#F7F8FA`), solid white cards (`#FFFFFF`), primary text (`#111318`), secondary text (`#667085`), primary brand cobalt (`#174EA6`), dark sections (`#0B1220`), verified green (`#15803D`), caution amber (`#B45309`), danger red (`#B42318`), and subtle borders (`#E4E7EC`).
+- **Typography**: Inter / Geist / system sans-serif for clean interface hierarchy; IBM Plex Mono for hash fingerprints, telemetry metrics, and ISO timestamps.
+- **Form Factor**: Zero AI-generated clichés (no floating purple blobs, no pillowy rounded cards, no decorative low-contrast gradients). Strict 4px–8px border radii, razor-thin borders, and high-density contrast.
 
 ### Verification Engine State Machine
 ```typescript
