@@ -17,13 +17,17 @@ export interface Requirement {
   label: string;
   agreedValue: string;
   detectedValue?: string;
+  evidenceType?: 'photo' | 'document' | 'video' | 'receipt';
   status: RequirementStatus;
   confidence: number; // percentage 0-100
   explanation?: string;
+  impact?: string;
 }
 
 export interface Agreement {
   task: string;
+  category?: string;
+  description?: string;
   price: string;
   deadline: string;
   color?: string;
@@ -48,7 +52,7 @@ export interface Evidence {
     detectedColorName?: string;
     detectedObjects?: string[];
     resolution?: string;
-    quality?: 'Good' | 'Moderate' | 'Low';
+    quality?: 'Good' | 'Moderate' | 'Low' | 'Insufficient';
   };
 }
 
@@ -60,6 +64,7 @@ export interface VerificationFinding {
   status: 'matched' | 'mismatch' | 'warning';
   confidence: number;
   reasoning: string;
+  impact?: string;
 }
 
 export interface Verification {
@@ -70,6 +75,8 @@ export interface Verification {
   findings: VerificationFinding[];
   summary: string;
   evaluatedAt: string;
+  observation?: string;
+  discrepancyReason?: string;
   dominantColorDiff?: {
     agreed: string;
     agreedHex: string;
@@ -90,6 +97,7 @@ export interface TrustTag {
   id: string;
   title: string;
   service: string;
+  category: string;
   provider: {
     name: string;
     contact?: string;
@@ -108,6 +116,16 @@ export interface TrustTag {
   timeline: TimelineEvent[];
 }
 
+export interface ActivityItem {
+  id: string;
+  timestamp: string;
+  trustTagId: string;
+  serviceName: string;
+  action: string;
+  detail: string;
+  status: 'verified' | 'mismatch' | 'review' | 'info';
+}
+
 export interface UserProfile {
   name: string;
   email: string;
@@ -120,4 +138,11 @@ export interface UserProfile {
   aiSensitivity: number; // 50 - 99%
   emailAlerts: boolean;
   mismatchWebhooks: boolean;
+}
+
+export interface ToastMessage {
+  id: string;
+  title: string;
+  description?: string;
+  type: 'success' | 'danger' | 'warning' | 'info';
 }

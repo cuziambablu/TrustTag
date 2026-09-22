@@ -4,137 +4,117 @@ import { useTrustTagStore } from '../store/trustTagStore';
 import { StatusBadge } from '../components/common/StatusBadge';
 
 export const LandingPage: React.FC = () => {
-  const { setPage, launchHackathonMismatchDemo } = useTrustTagStore();
+  const { setPage, launchDemoScenario } = useTrustTagStore();
 
   return (
-    <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F7F7F4] text-[#111111] flex flex-col font-sans">
       <Navbar />
 
-      {/* Hero Section: Split Editorial Layout */}
+      {/* Hero Section */}
       <section className="pt-16 pb-20 md:pt-24 md:pb-28 border-b border-[#DCDCD6]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            {/* Left Editorial Copy (7 cols) */}
-            <div className="lg:col-span-7 space-y-6">
+            {/* Left Column: Editorial Headline & Actions (6 cols) */}
+            <div className="lg:col-span-6 space-y-6">
               <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold">
-                AGREEMENT VERIFICATION / 01
+                TRUSTTAG VERIFICATION SYSTEM
               </span>
 
-              <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[#171717] leading-[1.08]">
-                Make every agreement <br />
-                verifiable.
+              <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-[#111111] leading-[1.08]">
+                Proof that the work matches the promise.
               </h1>
 
               <p className="text-base sm:text-lg text-[#6B6B67] max-w-xl leading-relaxed">
-                TrustTag turns spoken agreements into structured requirements, then checks completed work against the original terms.
+                TrustTag turns verbal agreements and delivery evidence into verifiable proof.
               </p>
 
-              <div className="pt-4 flex flex-wrap items-center gap-4">
+              <div className="pt-4 flex flex-wrap items-center gap-4 font-mono text-xs">
                 <button
                   onClick={() => setPage('create-tag')}
-                  className="py-3 px-6 rounded-[4px] bg-[#171717] hover:bg-[#2E2E2E] text-white font-mono text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
+                  className="py-3 px-6 rounded-[4px] bg-[#111111] hover:bg-[#2E2E2E] text-white font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                 >
-                  Create a TrustTag
+                  Create an Agreement
                 </button>
 
                 <button
-                  onClick={() => launchHackathonMismatchDemo()}
-                  className="py-3 px-6 rounded-[4px] bg-[#FFFFFF] hover:bg-[#F0F0EB] text-[#171717] border border-[#DCDCD6] font-mono text-xs font-semibold tracking-wider uppercase transition-colors cursor-pointer"
+                  onClick={() => launchDemoScenario('mismatch_detected')}
+                  className="py-3 px-6 rounded-[4px] bg-[#FFFFFF] hover:bg-[#F0F0EB] text-[#111111] border border-[#DCDCD6] font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                 >
-                  View demonstration
+                  Try Demo
                 </button>
               </div>
 
-              {/* Sub-metrics strip */}
+              {/* Sub-metrics */}
               <div className="pt-8 border-t border-[#DCDCD6] grid grid-cols-3 gap-6 max-w-md font-mono text-xs">
                 <div>
-                  <span className="text-lg font-bold text-[#171717] block">94.2%</span>
-                  <span className="text-[10px] text-[#6B6B67] uppercase">Spectral Precision</span>
+                  <span className="text-lg font-bold text-[#111111] block">4/4</span>
+                  <span className="text-[10px] text-[#6B6B67] uppercase">Criteria Precision</span>
                 </div>
                 <div>
-                  <span className="text-lg font-bold text-[#171717] block">0 SHA</span>
+                  <span className="text-lg font-bold text-[#111111] block">0 SHA</span>
                   <span className="text-[10px] text-[#6B6B67] uppercase">Audit Tampering</span>
                 </div>
                 <div>
-                  <span className="text-lg font-bold text-[#171717] block">100%</span>
-                  <span className="text-[10px] text-[#6B6B67] uppercase">Impartial Logic</span>
+                  <span className="text-lg font-bold text-[#111111] block">100%</span>
+                  <span className="text-[10px] text-[#6B6B67] uppercase">Objective Logic</span>
                 </div>
               </div>
             </div>
 
-            {/* Right: Actual TrustTag Verification Document (5 cols) */}
-            <div className="lg:col-span-5">
-              <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 shadow-sm font-mono text-xs">
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-[#DCDCD6] pb-3 mb-4">
+            {/* Right Column: Realistic TrustTag Verification Interface (6 cols) */}
+            <div className="lg:col-span-6">
+              <div className="bg-[#FFFFFF] border border-[#DCDCD6] rounded-[6px] p-6 shadow-sm font-mono text-xs space-y-4">
+                <div className="flex items-center justify-between border-b border-[#DCDCD6] pb-3">
                   <div>
-                    <span className="text-[10px] text-[#6B6B67] uppercase block">RECORD ID</span>
-                    <span className="font-bold text-sm text-[#171717]">TT-1043</span>
+                    <span className="text-[10px] text-[#6B6B67] uppercase block">CASE RECORD</span>
+                    <span className="font-bold text-sm text-[#111111]">TT-1043 // APARTMENT PAINTING</span>
                   </div>
-                  <div className="text-right">
-                    <span className="text-[10px] text-[#6B6B67] uppercase block">CATEGORY</span>
-                    <span className="font-semibold text-[#171717]">ROOM PAINTING</span>
-                  </div>
+                  <StatusBadge status="mismatch" size="sm" />
                 </div>
 
-                {/* Agreement Specifications */}
-                <div className="space-y-2 mb-6">
-                  <span className="text-[10px] uppercase text-[#6B6B67] block font-semibold">
-                    AGREEMENT SPECIFICATION
-                  </span>
-                  <div className="divide-y divide-[#EBEBE6] border-t border-b border-[#EBEBE6]">
-                    <div className="py-1.5 flex justify-between">
-                      <span className="text-[#6B6B67]">Task:</span>
-                      <span className="text-[#171717]">Paint bedroom</span>
-                    </div>
-                    <div className="py-1.5 flex justify-between">
-                      <span className="text-[#6B6B67]">Color:</span>
-                      <span className="text-[#171717]">White</span>
-                    </div>
-                    <div className="py-1.5 flex justify-between">
-                      <span className="text-[#6B6B67]">Price:</span>
-                      <span className="text-[#171717]">₹8,000</span>
-                    </div>
-                    <div className="py-1.5 flex justify-between">
-                      <span className="text-[#6B6B67]">Deadline:</span>
-                      <span className="text-[#171717]">Friday, 6:00 PM</span>
+                {/* Agreement on Left & Evidence on Right */}
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Left: Agreement */}
+                  <div className="p-3 bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] space-y-2">
+                    <span className="text-[10px] text-[#6B6B67] uppercase block font-semibold">
+                      AGREED TERMS
+                    </span>
+                    <div className="text-[11px] text-[#111111] space-y-1">
+                      <div>Task: <strong>Paint bedroom</strong></div>
+                      <div>Color: <strong>White</strong></div>
+                      <div>Coats: <strong>2 coats</strong></div>
+                      <div>Fee: <strong>₹8,000</strong></div>
+                      <div>Deadline: <strong>Friday</strong></div>
                     </div>
                   </div>
-                </div>
 
-                {/* Photo Preview inside document */}
-                <div className="mb-6">
-                  <span className="text-[10px] uppercase text-[#6B6B67] block font-semibold mb-2">
-                    EVIDENCE SUBMISSION
-                  </span>
-                  <div className="aspect-[16/10] w-full rounded-[4px] overflow-hidden border border-[#DCDCD6] bg-[#151515] relative">
-                    <img
-                      src="/demo/blue-room.svg"
-                      alt="Delivered evidence"
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute bottom-2 right-2 bg-[#171717]/90 text-white font-mono text-[9px] px-1.5 py-0.5 border border-[#2E2E2E]">
-                      EXTRACT: #2563EB
+                  {/* Right: Delivery Evidence */}
+                  <div className="p-3 bg-[#F7F7F4] border border-[#DCDCD6] rounded-[3px] space-y-2">
+                    <span className="text-[10px] text-[#6B6B67] uppercase block font-semibold">
+                      DELIVERY EVIDENCE
+                    </span>
+                    <div className="aspect-[16/11] rounded-[2px] overflow-hidden border border-[#DCDCD6] bg-[#111111] relative">
+                      <img
+                        src="/demo/blue-room.svg"
+                        alt="Submitted evidence"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute bottom-1 right-1 bg-[#111111]/90 text-white text-[9px] px-1 py-0.2 border border-[#333333]">
+                        #2563EB
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Verification section */}
-                <div className="space-y-2 border-t border-[#DCDCD6] pt-4">
-                  <span className="text-[10px] uppercase text-[#6B6B67] block font-semibold">
-                    VERIFICATION FINDING
-                  </span>
-
-                  <div className="p-3 bg-[#FEF2F2] border border-[#FECACA] rounded-[4px] text-xs">
-                    <div className="flex items-center justify-between font-bold text-[#991B1B] mb-1">
-                      <span>STATUS: MISMATCH DETECTED</span>
-                      <span>92% CONF</span>
-                    </div>
-                    <div className="text-[11px] text-[#6B6B67] space-y-0.5">
-                      <div>AGREED COLOR: <strong className="text-[#171717]">WHITE</strong></div>
-                      <div>DETECTED COLOR: <strong className="text-[#1D4ED8]">BLUE (#2563EB)</strong></div>
-                    </div>
+                {/* Verification result connecting them */}
+                <div className="p-3.5 bg-[#FEF2F2] border border-[#FECACA] rounded-[3px]">
+                  <div className="flex items-center justify-between font-bold text-[#991B1B] text-[11px] mb-1">
+                    <span>⚠ REQUIREMENT MISMATCH DETECTED</span>
+                    <span>92% CONF</span>
                   </div>
+                  <p className="text-xs font-sans text-[#111111] leading-relaxed">
+                    Wall color appears significantly different from the agreed requirement. Agreed: <strong className="text-[#111111]">White</strong> vs Detected: <strong className="text-[#1D4ED8]">Blue</strong>.
+                  </p>
                 </div>
               </div>
             </div>
@@ -142,213 +122,194 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Section 2: "From words to evidence." Process */}
-      <section id="how-it-works" className="py-20 border-b border-[#DCDCD6] bg-[#FFFFFF]">
+      {/* Section 1: The Problem */}
+      <section className="py-20 border-b border-[#DCDCD6] bg-[#FFFFFF]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+          <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold">
+            THE PROBLEM
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#111111] leading-tight">
+            “Most service disputes start with a simple problem: nobody has the same understanding of what was promised.”
+          </h2>
+          <p className="text-sm text-[#6B6B67] max-w-2xl mx-auto leading-relaxed font-mono">
+            Unrecorded conversations, vague WhatsApp threads, and subjective handshakes leave clients and providers exposed. TrustTag establishes an immutable contract record and verifies delivery using computer vision.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 2: How TrustTag Works (AGREE → CAPTURE → VERIFY → RESOLVE) */}
+      <section id="how-it-works" className="py-20 border-b border-[#DCDCD6] bg-[#F7F7F4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-14">
+          <div className="mb-14 text-center">
             <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold mb-2">
-              METHODOLOGY
+              PROCESS
             </span>
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#171717]">
-              From words to evidence.
+            <h2 className="text-3xl font-extrabold tracking-tight text-[#111111]">
+              How TrustTag works.
             </h2>
-            <p className="text-sm text-[#6B6B67] mt-1">
-              A transparent verification process with zero marketplace bias.
-            </p>
           </div>
 
-          {/* Horizontal Process with Thin Connecting Lines */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-            <div className="space-y-3">
-              <span className="font-mono text-sm font-bold text-[#1D4ED8] block">
-                01
-              </span>
-              <h3 className="font-mono text-xs uppercase tracking-wider font-bold text-[#171717]">
-                AGREEMENT
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 font-mono text-xs">
+            <div className="p-6 bg-[#FFFFFF] border border-[#DCDCD6] rounded-[4px] space-y-2">
+              <span className="text-sm font-bold text-[#1D4ED8] block">01</span>
+              <h3 className="font-bold text-xs uppercase tracking-wider text-[#111111]">
+                AGREE
               </h3>
-              <p className="text-xs text-[#6B6B67] leading-relaxed">
-                Capture what was said through voice recording, audio file upload, or chat transcript.
+              <p className="text-[#6B6B67] font-sans leading-relaxed">
+                Parties verbally agree on work: service scope, price, deadline, and expectations.
               </p>
             </div>
 
-            <div className="space-y-3">
-              <span className="font-mono text-sm font-bold text-[#1D4ED8] block">
-                02
-              </span>
-              <h3 className="font-mono text-xs uppercase tracking-wider font-bold text-[#171717]">
-                STRUCTURE
+            <div className="p-6 bg-[#FFFFFF] border border-[#DCDCD6] rounded-[4px] space-y-2">
+              <span className="text-sm font-bold text-[#1D4ED8] block">02</span>
+              <h3 className="font-bold text-xs uppercase tracking-wider text-[#111111]">
+                CAPTURE
               </h3>
-              <p className="text-xs text-[#6B6B67] leading-relaxed">
-                Convert conversational context into unambiguous, measurable criteria: task, color, price, and deadline.
+              <p className="text-[#6B6B67] font-sans leading-relaxed">
+                TrustTag converts spoken terms into structured, measurable acceptance criteria.
               </p>
             </div>
 
-            <div className="space-y-3">
-              <span className="font-mono text-sm font-bold text-[#1D4ED8] block">
-                03
-              </span>
-              <h3 className="font-mono text-xs uppercase tracking-wider font-bold text-[#171717]">
-                EVIDENCE
-              </h3>
-              <p className="text-xs text-[#6B6B67] leading-relaxed">
-                Upload photographic or video proof of the completed service directly to the TrustTag case file.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <span className="font-mono text-sm font-bold text-[#1D4ED8] block">
-                04
-              </span>
-              <h3 className="font-mono text-xs uppercase tracking-wider font-bold text-[#171717]">
+            <div className="p-6 bg-[#FFFFFF] border border-[#DCDCD6] rounded-[4px] space-y-2">
+              <span className="text-sm font-bold text-[#1D4ED8] block">03</span>
+              <h3 className="font-bold text-xs uppercase tracking-wider text-[#111111]">
                 VERIFY
               </h3>
-              <p className="text-xs text-[#6B6B67] leading-relaxed">
-                Multimodal computer vision cross-references the submitted evidence against original specifications.
+              <p className="text-[#6B6B67] font-sans leading-relaxed">
+                Provider uploads evidence photos. AI cross-checks pixels directly against the criteria.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#FFFFFF] border border-[#DCDCD6] rounded-[4px] space-y-2">
+              <span className="text-sm font-bold text-[#1D4ED8] block">04</span>
+              <h3 className="font-bold text-xs uppercase tracking-wider text-[#111111]">
+                RESOLVE
+              </h3>
+              <p className="text-[#6B6B67] font-sans leading-relaxed">
+                Objective audit report certifies MATCH, MISMATCH, or NEEDS REVIEW without disputes.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 3: Real Product Preview */}
-      <section id="product" className="py-20 border-b border-[#DCDCD6] bg-[#F7F7F4]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold mb-2">
-                SYSTEM INTERFACE
-              </span>
-              <h2 className="text-3xl font-extrabold tracking-tight text-[#171717]">
-                The TrustTag verification ledger.
-              </h2>
-            </div>
-            <button
-              onClick={() => setPage('dashboard')}
-              className="font-mono text-xs font-semibold text-[#1D4ED8] hover:underline"
-            >
-              Open Live Dashboard →
-            </button>
-          </div>
-
-          {/* Browser-like Product Preview Container */}
-          <div className="border border-[#DCDCD6] rounded-[6px] bg-[#FFFFFF] shadow-sm overflow-hidden">
-            {/* Browser Header Bar */}
-            <div className="bg-[#F0F0EB] px-4 py-2.5 border-b border-[#DCDCD6] flex items-center justify-between text-xs font-mono text-[#6B6B67]">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#DCDCD6]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#DCDCD6]" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#DCDCD6]" />
-                <span className="ml-3 text-[11px]">https://trusttag.sys/ledger</span>
-              </div>
-              <span className="text-[10px] uppercase">READ-ONLY AUDIT STREAM</span>
-            </div>
-
-            {/* Dashboard Content Mockup */}
-            <div className="p-6 sm:p-8 space-y-6">
-              {/* Compact Information Strip */}
-              <div className="grid grid-cols-3 border border-[#DCDCD6] rounded-[4px] p-4 bg-[#F7F7F4] text-center font-mono">
-                <div>
-                  <span className="text-2xl font-bold text-[#171717] block">12</span>
-                  <span className="text-[10px] text-[#6B6B67] uppercase">ACTIVE</span>
-                </div>
-                <div className="border-x border-[#DCDCD6]">
-                  <span className="text-2xl font-bold text-[#15803D] block">8</span>
-                  <span className="text-[10px] text-[#6B6B67] uppercase">VERIFIED</span>
-                </div>
-                <div>
-                  <span className="text-2xl font-bold text-[#B91C1C] block">1</span>
-                  <span className="text-[10px] text-[#6B6B67] uppercase">MISMATCH</span>
-                </div>
-              </div>
-
-              {/* Table */}
-              <div className="border border-[#DCDCD6] rounded-[4px] overflow-hidden">
-                <table className="w-full text-left text-xs font-mono">
-                  <thead>
-                    <tr className="bg-[#F7F7F4] border-b border-[#DCDCD6] text-[#6B6B67] text-[10px] uppercase">
-                      <th className="py-2.5 px-4">RECORD</th>
-                      <th className="py-2.5 px-4">SERVICE</th>
-                      <th className="py-2.5 px-4">STATUS</th>
-                      <th className="py-2.5 px-4 text-right">TIMESTAMP</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#EBEBE6]">
-                    <tr className="hover:bg-[#F7F7F4] cursor-pointer" onClick={() => setPage('verification-result')}>
-                      <td className="py-3 px-4 font-bold text-[#171717]">TT-1043</td>
-                      <td className="py-3 px-4">Room Painting</td>
-                      <td className="py-3 px-4">
-                        <StatusBadge status="mismatch" size="sm" />
-                      </td>
-                      <td className="py-3 px-4 text-right text-[#6B6B67]">2 min ago</td>
-                    </tr>
-                    <tr className="hover:bg-[#F7F7F4] cursor-pointer" onClick={() => setPage('tag-details')}>
-                      <td className="py-3 px-4 font-bold text-[#171717]">TT-1042</td>
-                      <td className="py-3 px-4">Website Development</td>
-                      <td className="py-3 px-4">
-                        <StatusBadge status="verified" size="sm" />
-                      </td>
-                      <td className="py-3 px-4 text-right text-[#6B6B67]">Yesterday</td>
-                    </tr>
-                    <tr className="hover:bg-[#F7F7F4] cursor-pointer" onClick={() => setPage('tag-details')}>
-                      <td className="py-3 px-4 font-bold text-[#171717]">TT-1041</td>
-                      <td className="py-3 px-4">AC Repair</td>
-                      <td className="py-3 px-4">
-                        <StatusBadge status="verified" size="sm" />
-                      </td>
-                      <td className="py-3 px-4 text-right text-[#6B6B67]">Yesterday</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 4: Realistic Use Cases */}
+      {/* Section 3: Example Case ("Paint bedroom walls white") */}
       <section id="use-cases" className="py-20 border-b border-[#DCDCD6] bg-[#FFFFFF]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 text-center">
             <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold mb-2">
-              APPLICATIONS
+              REAL-WORLD INSPECTION CASE
             </span>
-            <h2 className="text-3xl font-extrabold tracking-tight text-[#171717]">
-              Built for commercial service transactions.
+            <h2 className="text-3xl font-extrabold tracking-tight text-[#111111]">
+              “Paint bedroom walls white.”
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-            <div className="p-5 border border-[#DCDCD6] rounded-[4px] bg-[#F7F7F4] space-y-2">
-              <span className="text-[10px] text-[#6B6B67] uppercase block">CONTRACT CLASS A</span>
-              <h3 className="font-bold text-sm text-[#171717] font-sans">Residential Services</h3>
-              <p className="text-[#6B6B67] leading-relaxed">
-                Painting, plumbing, electrical installations, and renovations. Verifies paint color tones, pipe replacements, and fixture specifications.
-              </p>
-            </div>
+          <div className="border border-[#DCDCD6] rounded-[6px] bg-[#F7F7F4] p-6 sm:p-8 font-mono text-xs space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Agreed */}
+              <div className="p-4 bg-[#FFFFFF] border border-[#DCDCD6] rounded-[4px] space-y-2">
+                <span className="text-[10px] text-[#6B6B67] uppercase block font-semibold">
+                  AGREED SPECIFICATIONS
+                </span>
+                <ul className="text-xs text-[#111111] space-y-1.5 font-sans">
+                  <li>• White paint finish</li>
+                  <li>• 2 coats required</li>
+                  <li>• ₹8,000 compensation</li>
+                  <li>• Completion by Friday</li>
+                </ul>
+              </div>
 
-            <div className="p-5 border border-[#DCDCD6] rounded-[4px] bg-[#F7F7F4] space-y-2">
-              <span className="text-[10px] text-[#6B6B67] uppercase block">CONTRACT CLASS B</span>
-              <h3 className="font-bold text-sm text-[#171717] font-sans">Digital & Creative Studios</h3>
-              <p className="text-[#6B6B67] leading-relaxed">
-                Web development sprints, graphic branding, video editing. Verifies responsive deliverables against acceptance criteria.
-              </p>
-            </div>
+              {/* Delivered */}
+              <div className="p-4 bg-[#FFFFFF] border border-[#DCDCD6] rounded-[4px] space-y-2">
+                <span className="text-[10px] text-[#6B6B67] uppercase block font-semibold">
+                  DELIVERED EVIDENCE
+                </span>
+                <div className="aspect-[16/10] rounded-[2px] overflow-hidden border border-[#DCDCD6] bg-[#111111]">
+                  <img src="/demo/blue-room.svg" alt="Delivered blue room" className="w-full h-full object-cover" />
+                </div>
+                <span className="text-[10px] text-[#6B6B67] block">Photo evidence submitted by contractor</span>
+              </div>
 
-            <div className="p-5 border border-[#DCDCD6] rounded-[4px] bg-[#F7F7F4] space-y-2">
-              <span className="text-[10px] text-[#6B6B67] uppercase block">CONTRACT CLASS C</span>
-              <h3 className="font-bold text-sm text-[#171717] font-sans">Commercial Trades & Vendors</h3>
-              <p className="text-[#6B6B67] leading-relaxed">
-                Custom printing runs, equipment fabrication, HVAC maintenance. Verifies physical component models and pressure gauge readings.
-              </p>
+              {/* AI Result */}
+              <div className="p-4 bg-[#FEF2F2] border border-[#FECACA] rounded-[4px] space-y-2 text-[#991B1B]">
+                <span className="text-[10px] uppercase block font-bold">
+                  AI AUDIT RESULT
+                </span>
+                <div className="font-bold text-xs uppercase">
+                  Requirement Mismatch Detected
+                </div>
+                <p className="text-xs font-sans text-[#111111] leading-relaxed">
+                  “Wall color appears significantly different from the agreed requirement.”
+                </p>
+                <div className="pt-2 border-t border-[#FECACA] text-[10px] text-[#6B6B67]">
+                  Confidence: <strong>92%</strong> • 3/4 Criteria Matched
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 4: Trust Report Preview */}
+      <section className="py-20 border-b border-[#DCDCD6] bg-[#F7F7F4]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B67] block font-semibold">
+            TRUST REPORT PREVIEW
+          </span>
+          <h2 className="text-3xl font-extrabold tracking-tight text-[#111111]">
+            Clear, impartial verification certificates.
+          </h2>
+          <p className="text-sm text-[#6B6B67] max-w-xl mx-auto">
+            Every TrustTag outputs a shareable cryptographic audit report containing exact requirement diffs, detected values, and calibrated confidence metrics.
+          </p>
+
+          <div className="p-6 bg-[#FFFFFF] border border-[#DCDCD6] rounded-[4px] text-left font-mono text-xs max-w-2xl mx-auto space-y-3">
+            <div className="flex justify-between border-b border-[#DCDCD6] pb-2 text-[10px] text-[#6B6B67]">
+              <span>CERTIFICATE ID: TT-CERT-1043</span>
+              <span>SHA256: e8d4f09a12c4...72d54e48b1</span>
+            </div>
+            <div className="grid grid-cols-2 gap-4 py-2">
+              <div>
+                <span className="text-[#6B6B67] block text-[10px]">CONTRACTED TASK:</span>
+                <span className="text-[#111111] font-bold">Paint bedroom walls white</span>
+              </div>
+              <div>
+                <span className="text-[#6B6B67] block text-[10px]">EVIDENCE STATUS:</span>
+                <span className="text-[#B91C1C] font-bold">MISMATCH (Blue detected)</span>
+              </div>
+            </div>
+            <div className="text-[11px] font-sans text-[#6B6B67] pt-2 border-t border-[#DCDCD6]">
+              Calibrated algorithm assessment. Non-absolute probability distribution.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5: Final CTA */}
+      <section className="py-20 bg-[#FFFFFF]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#111111]">
+            Make your next agreement verifiable.
+          </h2>
+          <p className="text-sm text-[#6B6B67] max-w-lg mx-auto">
+            Eliminate service disputes before they happen with objective AI verification.
+          </p>
+          <div className="pt-2 flex justify-center gap-4 font-mono text-xs">
+            <button
+              onClick={() => setPage('create-tag')}
+              className="py-3 px-6 rounded-[4px] bg-[#111111] hover:bg-[#2E2E2E] text-white font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+            >
+              Create an Agreement →
+            </button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 bg-[#F7F7F4] text-xs font-mono text-[#6B6B67]">
+      <footer className="py-8 bg-[#F7F7F4] border-t border-[#DCDCD6] text-xs font-mono text-[#6B6B67]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-[#171717] font-semibold">TRUSTTAG // EVIDENCE VERIFICATION SYSTEM</span>
+          <span className="text-[#111111] font-semibold">TRUSTTAG // EVIDENCE VERIFICATION SYSTEM</span>
           <span>© 2026 TrustTag Systems. Built for high-trust commercial accountability.</span>
         </div>
       </footer>

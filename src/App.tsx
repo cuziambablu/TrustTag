@@ -14,7 +14,9 @@ import { VerificationProcessingPage } from './pages/VerificationProcessingPage';
 import { VerificationResultPage } from './pages/VerificationResultPage';
 import { TagDetailsPage } from './pages/TagDetailsPage';
 import { HistoryPage } from './pages/HistoryPage';
+import { ActivityPage } from './pages/ActivityPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ToastContainer } from './components/common/ToastContainer';
 
 export function App() {
   const { activePage } = useTrustTagStore();
@@ -26,6 +28,7 @@ export function App() {
       <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
         <DemoBanner />
         <LandingPage />
+        <ToastContainer />
       </div>
     );
   }
@@ -35,6 +38,7 @@ export function App() {
       <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
         <DemoBanner />
         <AuthPage initialMode="login" />
+        <ToastContainer />
       </div>
     );
   }
@@ -44,6 +48,7 @@ export function App() {
       <div className="min-h-screen bg-[#F7F7F4] text-[#171717] flex flex-col font-sans">
         <DemoBanner />
         <AuthPage initialMode="signup" />
+        <ToastContainer />
       </div>
     );
   }
@@ -86,10 +91,13 @@ export function App() {
             {activePage === 'verification-result' && <VerificationResultPage />}
             {activePage === 'tag-details' && <TagDetailsPage />}
             {activePage === 'history' && <HistoryPage />}
+            {activePage === 'activity' && <ActivityPage />}
             {activePage === 'settings' && <SettingsPage />}
           </main>
         </div>
       </div>
+
+      <ToastContainer />
     </div>
   );
 }
